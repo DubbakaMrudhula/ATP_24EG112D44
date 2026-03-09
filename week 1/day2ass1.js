@@ -38,3 +38,4 @@ console.log(employees)
 let result = employees.find(emp => emp.name === "Sneha");
 result.marks.splice(2,1,75)
 console.log(employees)
+

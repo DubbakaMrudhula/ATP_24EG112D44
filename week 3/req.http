@@ -1,0 +1,119 @@
+GET  http://localhost:4000/user-api/users
+Cookie:token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjI0ZWcxMTJkNDQiLCJpYXQiOjE3NzI4NzQxNTIsImV4cCI6MTc3Mjg3Nzc1Mn0.1440KFPnIAz99Ia4PG8wqInck8v5aLHMtFHuel7kkzk; Path=/; HttpOnly; SameSite=Lax
+
+### Read a user by id
+GET http://localhost:4000/user-api/users/69aa87959e2e99f2602bf3cd
+### Create new user
+POST http://localhost:4000/user-api/users
+Content-Type: application/json
+
+{
+  "username": "mrudhula",
+  "password":"mrudhula",
+  "email":"24eg112D44@anurag",
+  "age":19
+}
+###
+PUT http://localhost:4000/user-api/users/69aa984e35b926b75d60d89c
+Cookie:token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjI0ZWcxMTJENDQiLCJpYXQiOjE3NzI4NzgxNDIsImV4cCI6MTc3Mjg3ODI0Mn0.USMPpjDeY9DL_WHq2tNhSNQUYpXIZ3fX3qveAf-wdnM; Path=/; HttpOnly; SameSite=Lax
+Content-Type: application/json
+
+{
+   "username": "mrudhula",
+  "password":"mrudhula",
+  "email":"24eg112d67676",
+  "age":19
+}
+###
+DELETE http://localhost:4000/user-api/users/69aa87959e2e96f2602bf3cd
+###
+POST http://localhost:4000/user-api/auth
+Content-Type: application/json
+
+{
+  "email": "24eg112D44@anurag",
+  "password": "mrudhula"
+}
+###
+PUT http://localhost:4000/user-api/cart/product-id/3
+Cookie:token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjI0ZWcxMTJENDQiLCJpYXQiOjE3NzI4NzgxNDIsImV4cCI6MTc3Mjg3ODI0Mn0.USMPpjDeY9DL_WHq2tNhSNQUYpXIZ3fX3qveAf-wdnM; Path=/; HttpOnly; SameSite=Lax
+Content-Type: application/json
+
+{
+  "productId":3,
+  "count":2
+}
+
+###
+
+#   Create Product REST API with below features
+# 1. Product document structure
+#         a.productId (required)
+#         b.productName(required)
+#         c.price(required, min price 10000 and max price 50000)
+#         d.brand(required)
+# 2. REST API with below operations
+#         a. Create product
+#         b. Read all products
+#         c. Read a product by productId
+#         d. Update a product by productId
+#         e. Delete a product by productId
+
+###
+GET  http://localhost:4000/product-api/products
+
+### Read a user by id
+
+GET http://localhost:4000/product-api/products/69ab0e42dbaccf94afb59fbf
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "productName": "Laptop",
+  "price": 30000,
+  "brand": "Dell"
+}
+
+### Create new user
+
+POST http://localhost:4000/product-api/products
+Content-Type: application/json
+
+{
+  "productId": 5,
+  "productName":"laptop",
+  "price":30000,
+  "brand":"Dell"
+}
+
+###
+PUT http://localhost:4000/product-api/products/69ab0e42dbaccf94afb59fbf
+Content-Type: application/json
+
+{
+  "productId":1,
+  "productName":"laptop",
+  "price":40000,
+  "brand":"HP"
+}
+
+###
+DELETE http://localhost:4000/product-api/products/69ab0e42dbaccf94afb59fbf
+###
+
+
+
+
+
+
+
+
+###
+POST http://localhost:4000/user-api/auth
+Content-Type: application/json
+
+{
+  "email": "24eg112D44",
+  "password": "mrudhula"
+}
+

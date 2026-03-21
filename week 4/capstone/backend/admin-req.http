@@ -1,0 +1,36 @@
+### Login as Admin to get the Token
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@gmail.com",
+    "password": "mrudhula"
+}
+
+### Get all Users (excluding admins)
+GET http://localhost:5000/admin-api/users
+Authorization: Bearer <add_token_here>
+
+### Block/Unblock a User
+# Replace :id with a valid User ID
+PUT http://localhost:5000/admin-api/user/:id
+Content-Type: application/json
+Authorization: Bearer <add_token_here>
+
+{
+    "isUserActive": false
+}
+
+### Get all Articles
+GET http://localhost:5000/admin-api/articles
+Authorization: Bearer <add_token_here>
+
+### Block/Unblock an Article
+# Replace :id with a valid Article ID
+PUT http://localhost:5000/admin-api/article/:id
+Content-Type: application/json
+Authorization: Bearer <add_token_here>
+
+{
+    "isArticleActive": false
+}

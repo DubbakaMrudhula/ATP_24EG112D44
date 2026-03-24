@@ -4,7 +4,6 @@ import { ArticleModel } from '../models/ArticleModel.js';
 import { verifyToken } from '../middlewares/VerifyToken.js';
 
 export const adminApp = exp.Router();
-
 // Get all users (users and authors)
 adminApp.get('/users', verifyToken('ADMIN'), async (req, res) => {
     try {

@@ -12,7 +12,7 @@ function FormDemo1() {
 
   // form submit function
   const onFormSubmit = (newUserobj) => {
-    setUsers([...users,newUserobj]); 
+    setUsers([...users, newUserobj]);
   };
   return (
     <div className="bg-amber-100">
@@ -62,7 +62,7 @@ function FormDemo1() {
             className="border w-full p-3"
           />
           {errors.dateofbirth && (
-            <p className="text-red-800 text-2xl">eppud puttinav</p>
+            <p className="text-red-800 text-2xl">date of birth required</p>
           )}
         </div>
 
@@ -70,7 +70,7 @@ function FormDemo1() {
           type="submit"
           className="p-4 block bg-amber-300 text-center mx-auto"
         >
-          kottu
+          enter
         </button>
       </form>
 
@@ -91,11 +91,11 @@ function FormDemo1() {
                 <tr key={index}>
                   <td className="border border-gray-400 p-2">
                     {user.firstname}
-                  </td> 
-                  <td className="border border-gray-400 p-2">{user.email}</td> 
-                  <td className="border border-gray-400 p-2"> 
-                    {user.dateofbirth} 
-                  </td> 
+                  </td>
+                  <td className="border border-gray-400 p-2">{user.email}</td>
+                  <td className="border border-gray-400 p-2">
+                    {user.dateofbirth}
+                  </td>
                 </tr>
               ))}
             </tbody>

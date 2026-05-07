@@ -12,7 +12,7 @@ import cloudinary from "../config/cloudinary.js";
 config();
 
 //Route for register
-commonApp.post("/users", upload.single("profileImageUrl"), async (req, res) => {
+commonApp.post("/users", upload.single("profileImageUrl"), async (req, res, next) => {
   let cloudinaryResult;
   try {
     let allowedRoles = ["USER", "AUTHOR"];
@@ -27,13 +27,17 @@ commonApp.post("/users", upload.single("profileImageUrl"), async (req, res) => {
     }
 
     //Upload image to cloudinary from memoryStorage
-    if (req.file) {
-      cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+    if (req.file && process.env.CLOUDINARY_CLOUD_NAME) {
+      try {
+        cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+      } catch (uploadErr) {
+        console.log("Cloudinary upload failed, continuing without image:", uploadErr.message);
+      }
     }
 
     // console.log("cloudinaryResult", cloudinaryResult);
     //add CDN link(secure_url) of image to newUserObj
-    newUser.profileImageUrl = cloudinaryResult?.secure_url;
+    newUser.profileImageUrl = cloudinaryResult?.secure_url || undefined;
 
     //run validators manually
     //hash password and replace plain with hashed one
@@ -49,7 +53,7 @@ commonApp.post("/users", upload.single("profileImageUrl"), async (req, res) => {
   } catch (err) {
     console.log("err is ", err);
     //delete image from cloudinary
-    if (cloudinaryResult.public_id) {
+    if (cloudinaryResult?.public_id) {
       await cloudinary.uploader.destroy(cloudinaryResult.public_id);
     }
     next(err);
@@ -92,8 +96,8 @@ commonApp.post("/login", async (req, res) => {
   //set token to res header as httpOnly cookie
   res.cookie("token", signedToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
   });
   //remove password from user document
   let userObj = user.toObject();
@@ -108,8 +112,8 @@ commonApp.get("/logout", (req, res) => {
   //delete token from cookie storage
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
   });
   //send res
   res.status(200).json({ message: "Logout success" });

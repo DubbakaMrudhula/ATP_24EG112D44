@@ -1,20 +1,18 @@
- import exp from 'express'
- import {connect} from 'mongoose'
-  import { employeeApp } from './API/Employeeapi.js';
+import 'dotenv/config';
+import exp from 'express'
+import {connect} from 'mongoose'
+import { employeeApp } from './API/Employeeapi.js';
 import cors from 'cors'
 //cross origin resource sharing 
 const app=exp()
 
-app.use(cors({
-    origin:["http://localhost:5173","http://localhost:5174"]
-}))
+app.use(cors());
 app.use(exp.json());
 //forward req to userApp if path starts with /user-api
 app.use('/employee-api', employeeApp);
 
 const port = process.env.PORT || 4000;
-const mongoUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/employeeDB";
-
+const mongoUrl = process.env.DB_URL;
 async function connectDB(){
     try{
         await connect(mongoUrl);

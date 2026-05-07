@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL || "https://mern-mini-app-backend1.onrender.com";
+
 function CreateEmp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -17,7 +19,7 @@ function CreateEmp() {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:4000/employee-api/employees", {
+      const res = await fetch(`${API_URL}/employee-api/employees`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

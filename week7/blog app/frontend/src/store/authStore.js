@@ -1,6 +1,14 @@
 import { create } from "zustand";
 import axios from "axios";
 
+const extractError = (err, defaultMsg) => {
+  let msg = err.response?.data?.message || err.response?.data?.error || err.message || defaultMsg;
+  if (typeof msg === 'object') {
+    return msg.message || JSON.stringify(msg);
+  }
+  return msg;
+};
+
 export const useAuth = create((set) => ({
   currentUser: null,
   loading: false,
@@ -12,7 +20,7 @@ export const useAuth = create((set) => ({
       //set loading true
       set({ loading: true, currentUser: null, isAuthenticated: false, error: null });
       //make api call
-      let res = await axios.post("http://localhost:5000/auth/login", userCred, { withCredentials: true });
+      let res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/auth/login", userCred, { withCredentials: true });
       //update state
       if (res.status === 200) {
         set({
@@ -29,7 +37,7 @@ export const useAuth = create((set) => ({
         isAuthenticated: false,
         currentUser: null,
         //error: err,
-        error: err.response?.data?.message || err.response?.data?.error || err.message || "Login failed",
+        error: extractError(err, "Login failed"),
       });
     }
   },
@@ -37,7 +45,7 @@ export const useAuth = create((set) => ({
     try {
       //set loading state
       //make logout api req
-      let res = await axios.get("http://localhost:5000/auth/logout", { withCredentials: true });
+      let res = await axios.get(import.meta.env.VITE_BACKEND_URL + "/auth/logout", { withCredentials: true });
       //update state
       if (res.status === 200) {
         set({
@@ -52,21 +60,32 @@ export const useAuth = create((set) => ({
         loading: false,
         isAuthenticated: false,
         currentUser: null,
-        error: err.response?.data?.message || err.response?.data?.error || err.message || "Logout failed",
+        error: extractError(err, "Logout failed"),
       });
     }
   },
   // restore login
   checkAuth: async () => {
     try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      if (!backendUrl) {
+        console.error("VITE_BACKEND_URL is not set!");
+        set({ loading: false, isAuthenticated: false, currentUser: null });
+        return;
+      }
       set({ loading: true });
-      const res = await axios.get("http://localhost:5000/auth/check-auth", { withCredentials: true });
+      const res = await axios.get(backendUrl + "/auth/check-auth", { withCredentials: true });
 
-      set({
-        currentUser: res.data.payload,
-        isAuthenticated: true,
-        loading: false,
-      });
+      // Validate that response has actual user data
+      if (res.data?.payload && res.data?.message === "authenticated") {
+        set({
+          currentUser: res.data.payload,
+          isAuthenticated: true,
+          loading: false,
+        });
+      } else {
+        set({ currentUser: null, isAuthenticated: false, loading: false });
+      }
     } catch (err) {
       // If user is not logged in → do nothing
       if (err.response?.status === 401) {
@@ -80,7 +99,7 @@ export const useAuth = create((set) => ({
 
       // other errors
       console.error("Auth check failed:", err);
-      set({ loading: false });
+      set({ loading: false, isAuthenticated: false, currentUser: null });
     }
   },
 }));

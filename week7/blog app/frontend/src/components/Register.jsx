@@ -48,7 +48,7 @@ function Register() {
       //start loading
       setLoading(true);
       //make HTTP POST req to create User in backend
-      let res = await axios.post("http://localhost:5000/auth/users", formData,{withCredentials:true});
+      let res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/auth/users", formData,{withCredentials:true});
 
       if (res.status === 201) {
         //navigate to Login
@@ -56,7 +56,11 @@ function Register() {
       }
     } catch (err) {
       console.log("err in registration", err);
-      setApiError(err.response?.data?.message || err.response?.data?.error || err.message || "Registration failed");
+      let extractedError = err.response?.data?.message || err.response?.data?.error || err.message || "Registration failed";
+      if (typeof extractedError === 'object') {
+        extractedError = extractedError.message || JSON.stringify(extractedError);
+      }
+      setApiError(extractedError);
     } finally {
       setLoading(false);
     }

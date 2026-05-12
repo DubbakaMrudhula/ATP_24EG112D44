@@ -11,6 +11,13 @@ app.use(exp.json());
 //forward req to userApp if path starts with /user-api
 app.use('/employee-api', employeeApp);
 
+app.get("/", (req, res) => {
+  res.send("Backend is running successfully!");
+});
+
+// Handle favicon requests to avoid 404 errors in console
+app.get("/favicon.ico", (req, res) => res.status(204).end());
+
 const port = process.env.PORT || 4000;
 const mongoUrl = process.env.DB_URL;
 async function connectDB(){

@@ -12,3 +12,6 @@ Key things covered:
 - Implementing role-based access control for Users and Authors.
 - Building a responsive UI with React and handling state across the app.
 - Connecting the frontend to the backend APIs for real-time data.
+
+
+=

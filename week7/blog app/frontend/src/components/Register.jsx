@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router";
 import { useState } from "react";
 import axios from "axios";
+import { getBackendUrl } from "../utils/url";
 
 function Register() {
   const {
@@ -48,7 +49,9 @@ function Register() {
       //start loading
       setLoading(true);
       //make HTTP POST req to create User in backend
-      let res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/auth/users", formData,{withCredentials:true});
+      let res = await axios.post(`${getBackendUrl()}/auth/users`, formData, {
+        withCredentials: true,
+      });
 
       if (res.status === 201) {
         //navigate to Login
@@ -217,8 +220,8 @@ function Register() {
           </div>
 
           {/* SUBMIT */}
-          <button type="submit" className={submitBtn}>
-            Create Account
+          <button type="submit" className={submitBtn} disabled={loading}>
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 

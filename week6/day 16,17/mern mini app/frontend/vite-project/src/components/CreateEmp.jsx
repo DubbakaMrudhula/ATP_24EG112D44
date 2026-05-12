@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://mern-mini-app-backend1.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL || "https://mern-mini-app-2.onrender.com";
 
 function CreateEmp() {
   const [loading, setLoading] = useState(false);

@@ -3,41 +3,73 @@ import exp from 'express'
 import {connect} from 'mongoose'
 import { employeeApp } from './API/Employeeapi.js';
 import cors from 'cors'
-//cross origin resource sharing 
+
 const app=exp()
 
-app.use(cors());
+// Robust CORS configuration
+const allowedOrigins = [
+  "https://mern-mini-app1.vercel.app", 
+  "https://mern-mini-app.vercel.app",
+  "https://mini-mern-app.vercel.app"
+];
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like curl requests)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log("Blocked by CORS: ", origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(exp.json());
-//forward req to userApp if path starts with /user-api
+
+// Routes
 app.use('/employee-api', employeeApp);
 
 app.get("/", (req, res) => {
-  res.send("Backend is running successfully!");
+  res.json({ 
+    status: "success", 
+    message: "Backend is running successfully!",
+    db_connected: true 
+  });
 });
 
-// Handle favicon requests to avoid 404 errors in console
 app.get("/favicon.ico", (req, res) => res.status(204).end());
 
 const port = process.env.PORT || 4000;
 const mongoUrl = process.env.DB_URL;
-async function connectDB(){
-    try{
-        await connect(mongoUrl);
-        console.log("database connection successful");
 
-        // start server only after successful DB connection
-        app.listen(port, () => console.log(`server running on port ${port}..`));
+async function connectDB(){
+    if (!mongoUrl) {
+        console.error("FATAL ERROR: DB_URL environment variable is missing!");
+        process.exit(1);
     }
-    catch(err)
-    {
-        console.error("err in DB connection :", err);
+
+    try {
+        console.log("Attempting to connect to MongoDB...");
+        await connect(mongoUrl);
+        console.log("Database connection successful");
+
+        app.listen(port, () => console.log(`Server running on port ${port}..`));
+    }
+    catch(err) {
+        console.error("Error in DB connection:", err.message);
         process.exit(1);
     }
 }
 connectDB();
 
-//error handling in middleware
-app.use((err,req,res,next)=>{
-    res.json({message:"error occured",error:err.message})
-    next();
-})
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error("Unhandled Error:", err.stack);
+    res.status(err.status || 500).json({
+        message: "An error occurred",
+        error: err.message
+    });
+});

@@ -9,7 +9,3 @@ else
 {
     console.log(b);
 }
-
-
-
-

@@ -10,7 +10,7 @@ const app=exp()
 const allowedOrigins = [
   "https://mern-mini-app1.vercel.app", 
   "https://mern-mini-app.vercel.app",
-  "https://mini-mern-app.vercel.app"
+  "https://mini-mern-app.vercel.app","https://mern-mini-app-bmir.vercel.app/"
 ];
 app.use(cors({
   origin: function (origin, callback) {
@@ -72,4 +72,4 @@ app.use((err, req, res, next) => {
         message: "An error occurred",
         error: err.message
     });
-});
+});

@@ -12,11 +12,24 @@ config();
 
 //create express app
 const app = exp();
-//enable cors
-app.use(cors({
-  origin: true,
-  credentials: true,
-}));
+//enable cors — allow local dev and deployed frontend
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://blog-app-3-h9np.onrender.com", // update if your frontend has a separate Vercel URL
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // allow requests with no origin (e.g. curl, Postman) or from allowed list
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS: origin ${origin} not allowed`));
+      }
+    },
+    credentials: true,
+  })
+);
 //add cookie parser middleware
 app.use(cookieParser());
 //body parser middleware

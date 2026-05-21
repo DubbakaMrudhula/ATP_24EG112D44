@@ -1,16 +1,27 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+Project Overview:
+- This is a MERN stack blog application with a backend (Node.js/Express, MongoDB) and a frontend (React, Vite).
+- The app supports user authentication, article management, and role-based access.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+User Roles and Their Functions:
+1. User:
+   - Registers and logs in to the app.
+   - Can view articles.
+   - Can write, edit, and delete their own articles.
+   - Can comment on articles.
+   - Has a profile page.
 
-## React Compiler
+2. Admin:
+   - Has all User capabilities.
+   - Can view all users and articles.
+   - Can manage (edit/delete) any article or user.
+   - Can activate/deactivate users and articles.
+   - Has access to admin-specific APIs and dashboard.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+How the App Works:
+- Users register and log in via the frontend, which communicates with backend APIs.
+- After login, users can create, edit, and delete their own articles.
+- Admins have additional privileges to manage all content and users.
+- The backend uses role-based authentication to restrict access to certain APIs.
+- The frontend displays different UI components and routes based on the user’s role (User or Admin).

@@ -1,16 +1,85 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  # React User List App
+  
+  A simple React application built with Vite and Tailwind CSS that displays a list of users with their details. The project demonstrates component-based architecture, modern styling, and clean code practices.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Built with [Vite]
+- Styled using [Tailwind CSS]
+-  Displays a list of users with avatars, names, and emails
+- Modular React components: Navbar, Footer, User, UserList
+- Responsive layout using Tailwind utility classes
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+react-1/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── App.jsx
+│   ├── App.css
+│   ├── index.css
+│   ├── main.jsx
+│   └── components/
+│       ├── navbar.jsx
+│       ├── footer.jsx
+│       ├── User.jsx
+│       └── userlist.jsx
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md
+```
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v18 or above recommended)
+- npm or yarn
+
+### Installation
+
+```bash
+npm install
+```
+
+### Running the App
+
+```bash
+npm run dev
+```
+
+The app will be available at [http://localhost:5173](http://localhost:5173) by default.
+
+## Usage
+
+- The main page displays a navigation bar, a grid of user cards, and a footer.
+- User data is hardcoded in the `UserList` component for demonstration.
+- Easily extendable to fetch users from an API.
+
+## Scripts
+
+- `npm run dev` — Start development server
+- `npm run build` — Build for production
+- `npm run preview` — Preview production build
+- `npm run lint` — Lint code with ESLint
+
+## Customization
+
+- Add more users by editing `src/components/userlist.jsx`.
+- Update styles using Tailwind utility classes in component files.
+
+## License
+
+This project is for educational/demo purposes.
+
+---
+
+<div align="center">
+  <sub>Made with using React, Vite & Tailwind CSS</sub>
+</div>
